@@ -24,7 +24,11 @@ impute_missing_server = function() {
 					, multiple=FALSE
 				)
 			})
-			print(rv_current$missing_prop)
+			##print(rv_current$missing_prop)
+			observe({
+			  print(rv_current$missing_prop)
+			})
+			
 		}
 ## 	observeEvent(input$setup_models_analysis_apply, {
 ## 		if (!isTRUE(NROW(rv_current$missing_prop))) {
@@ -67,4 +71,4 @@ impute_missing_server = function() {
 ## ## 			updateSelectInput(session, "impute_missing_options", selected="")
 ## ## 		}
 ## 	})
-}
+##}

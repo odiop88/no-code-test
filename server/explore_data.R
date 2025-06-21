@@ -312,7 +312,10 @@ explore_missing_data_server = function() {
 					)
 				})
 				output$explore_missing_data = renderPrint({
-					rv_current$missing_prop
+				  observe({
+				    print(rv_current$missing_prop)
+				  })
+				  
 				})
 			} else {
 				output$explore_missing_data_out = renderUI({

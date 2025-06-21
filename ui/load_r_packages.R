@@ -39,6 +39,8 @@ library(webshot)
 library(webshot2)
 library(shinyFiles)
 library(flextable)
+library(DBI)
+library(RMySQL)
 
 #Temp
 ## source("ui/tablefun.R")

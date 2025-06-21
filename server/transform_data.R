@@ -761,7 +761,7 @@ transform_data_handle_missing_values_server = function() {
 				rv_current$missing_prop = missing_prop(rv_current$working_df)
 			}
 			
-			if (NROW(rv_current$missing_prop)) {
+		  if (!is.null(rv_current$missing_prop) && NROW(rv_current$missing_prop)) {
 				rv_current$missing_prop_df = (rv_current$missing_prop
 					|> filter_missing_values_df(column="missing"
 						, var_column="variable"
