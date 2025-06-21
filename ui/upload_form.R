@@ -1,0 +1,244 @@
+#### ---- Study name ---------------------------------------#####
+
+study_name = renderUI({
+	textInput("study_name", get_rv_labels("study_name"), width = "50%")
+})
+
+#### ---- Study country ---------------------------------------#####
+study_country = renderUI({
+	selectInput("study_country", get_rv_labels("study_country"), choices = countries::list_countries(), multiple = TRUE)
+})
+
+#### ---- Additional info ---------------------------------------#####
+additional_info = renderUI({
+	textAreaInput("additional_info", get_rv_labels("additional_info"), placeholder = get_rv_labels("additional_info_ph"), width = "50%")
+})
+
+## #### ----- Submit upload ----------------------------------------####
+## submit_upload = renderUI({
+## 	actionBttn("submit_upload", get_rv_labels("submit_upload"), width = "25%"
+## 		, inline=TRUE
+## 		, block = FALSE
+## 		, color = "success"
+## 	)
+## })
+
+
+
+#### ----- Submit upload ----------------------------------------####
+submit_upload <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    actionBttn("submit_upload", get_rv_labels("submit_upload"),
+               width = "25%" 
+               , inline = TRUE 
+               , block = FALSE 
+               , color = "success" 
+    ) 
+  } else if (isTRUE(any(input$upload_type %in% c("Local", "URL")))) { 
+    actionBttn("submit_upload", get_rv_labels("submit_upload"),
+               width = "25%" 
+               , inline = TRUE 
+               , block = FALSE 
+               , color = "success" 
+    ) 
+  } else { 
+    NULL 
+  } 
+})
+
+### --- Additional form details for database section --- ###
+
+#### ----- Connect database ----------------------------------------####
+db_connect <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) { 
+    if(is.null(rv_database$conn)){
+      actionBttn("db_connect",
+                 label = get_rv_labels("db_connect"), width = "25%" 
+                 , inline = TRUE 
+                 , block = FALSE 
+                 , color = "success" 
+      )
+    }  
+    
+    
+  } else { 
+    NULL 
+  } 
+})
+
+
+### ----------OMOP Schema Views---------------------------------------####
+db_schema_list <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(!is.null(rv_database$conn) && !is.null(input$option_picked) &&  input$option_picked == "use a table"){
+      selectInput("db_schema_list", get_rv_labels("db_schema_list"), choices = NULL, multiple = FALSE)
+    }
+    
+  }
+})
+
+
+### ----------OMOP Table Views---------------------------------------####
+db_table_list <- renderUI({
+  if (!is.null(rv_database$conn) && isTRUE(input$upload_type == "Database connection")) {
+    if(!is.null(input$option_picked) && input$option_picked == "use a table"){
+      selectInput("db_table_list", get_rv_labels("db_table_list"), choices = NULL, multiple = FALSE)
+    }
+    
+  }
+})
+
+
+
+### ----------OMOP database type---------------------------------------####
+db_type <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    selectInput("db_type", get_rv_labels("db_type"), choices = c("PostgreSQL","MySQL"), selected = "PostgreSQL" , multiple = FALSE)
+  }
+})
+
+### --- Database host ---###
+db_host <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(is.null(rv_database$conn)){
+      textInput("db_host",
+                label = get_rv_labels("db_host")
+                , placeholder = get_rv_labels("db_host_placeholder")
+                , width = "50%"
+      )
+    }
+  } else {
+    NULL
+  }
+})
+
+#### ---- Database name ---------------------------------------#####
+db_name <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(is.null(rv_database$conn)){  
+      textInput("db_name",
+                label = get_rv_labels("db_name")
+                , placeholder = get_rv_labels("db_name_placeholder")
+                , width = "50%"
+      )
+    }
+  } else {
+    NULL
+  }
+})
+
+#### ---- Database user ---------------------------------------#####
+db_user <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(is.null(rv_database$conn)){  
+      textInput("db_user",
+                label = get_rv_labels("db_user")
+                , placeholder = get_rv_labels("db_user_placeholder")
+                , width = "50%"
+      )
+    }
+  } else {
+    NULL
+  }
+})
+
+#### ---- Database password ---------------------------------------#####
+db_pwd <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(is.null(rv_database$conn)){  
+      passwordInput("db_pwd",
+                    label = get_rv_labels("db_pwd")
+                    , placeholder = get_rv_labels("db_pwd_placeholder")
+                    , width = "50%"
+      )
+    }
+  } else {
+    NULL
+  }
+})
+
+
+#### ---- Database port ---------------------------------------#####
+db_port <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) {
+    if(is.null(rv_database$conn)){
+      textInput("db_port",
+                label = get_rv_labels("db_port")
+                , placeholder = get_rv_labels("db_port_placeholder")
+                , width = "50%"
+                , value ="5432"
+      )
+    }
+  } else {
+    NULL
+  }
+})
+
+
+### ---------- Custom Query ---------------------------------------####
+
+db_custom_query <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) { 
+    if(!is.null(rv_database$conn) && !is.null(input$option_picked) && input$option_picked == "use SQL query"){
+      textAreaInput("db_custom_query", get_rv_labels("db_custom_query"), placeholder = get_rv_labels("db_write_query_placeholder"), width = "50%")
+    }
+    
+  }
+})
+
+
+db_run_query<- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) { 
+    if(!is.null(rv_database$conn) && !is.null(input$option_picked) && input$option_picked == "use SQL query"){
+      actionBttn("db_run_query",
+                 label = get_rv_labels("db_run_query"), width = "25%" 
+                 , inline = TRUE 
+                 , block = FALSE 
+                 , color = "success" 
+      ) 
+    }
+    
+  } else { 
+    NULL 
+  } 
+})
+
+
+#### ----- Disconnect database ----------------------------------------####
+db_disconnect <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) { 
+    if(!is.null(rv_database$conn)){
+      actionBttn("db_disconnect",
+                 label = get_rv_labels("db_disconnect"), width = "25%" 
+                 , inline = TRUE 
+                 , block = FALSE 
+                 , color = "success" 
+      )
+      
+    }
+    
+  } else { 
+    NULL 
+  } 
+})
+
+db_tab_query <- renderUI({
+  if (isTRUE(input$upload_type == "Database connection")) { 
+    if(!is.null(rv_database$conn)){
+      radioButtons("option_picked", get_rv_labels("db_tab_query"), 
+                   choices = get_named_choices(input_choices_file, input$change_language, "ui_radio_button"),
+                   selected = get_named_choices(input_choices_file, input$change_language, "ui_radio_button")[1])
+                   
+      
+    }
+    
+  }else { 
+    NULL 
+  }
+})
+
+
+
+
+
+
