@@ -73,6 +73,7 @@ make sync
 - Steve Cygu
 - Michael Ochola
 - John Lunalo
+- Ousmane Diop
 
 ## Maintainer(s)
 
