@@ -1,5 +1,6 @@
 #Only UI files and R packages should be included
-
+#source("ui/automl_ui.R")
+#tabPanel("AutoML", automl_ui("automl_module"))
 #Load R packages
 source(paste0(getwd(), "/ui/load_r_packages.R"))
 #Load Headertag

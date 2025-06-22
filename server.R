@@ -1,8 +1,11 @@
+
 library(Rautoml)
 options(shiny.maxRequestSize=300*1024^2)
 source("R/shinyutilities.R")
 
+
 function(input, output, session) {
+
   #### ---- Input validators ---------------------------------------------------
   source("server/input_validators.R")
 
@@ -362,6 +365,11 @@ function(input, output, session) {
   
   ##### ----- Preprocessing ------------------- ####
   source("server/feature_engineering.R", local=TRUE)
+  
+  #### ---- Call current dataset for FastAPI ---------------------------------------------------  
+  source("server/automl_server.R")
+  automl_server("automl_module", rv_current)
+  
   
   ###### ----- Initialize recipe ------------------- ####
   setup_recipe_server()
